@@ -1,24 +1,38 @@
-import { initializeApp } from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import "./styles.scss";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDGQEc1w4nqrm9NMOZ2-t5GOCdEJjNl_jU",
-  authDomain: "react-chatapp-49cb4.firebaseapp.com",
-  projectId: "react-chatapp-49cb4",
-  storageBucket: "react-chatapp-49cb4.appspot.com",
-  messagingSenderId: "164281111409",
-  appId: "1:164281111409:web:b0086991b0927473725cd0",
-};
-
-const app = initializeApp(firebaseConfig);
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
 function App() {
-  return <Home />;
+  const { currentUser } = useContext(AuthContext);
+
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to="/login" />;
+    }
+  };
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route path="login" element={<Login />}></Route>
+          <Route path="register" element={<Register />}></Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
