@@ -5,6 +5,7 @@ import "./styles.scss";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
+import Profile from "./components/Profile";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -30,6 +31,7 @@ function App() {
           ></Route>
           <Route path="login" element={<Login />}></Route>
           <Route path="register" element={<Register />}></Route>
+          <Route path="profile" element={<Profile />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

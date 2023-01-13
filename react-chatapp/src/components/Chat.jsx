@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-
+import { Link } from "react-router-dom";
 import Profile from "../img/profile.png";
-import More from "../img/more.png";
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from "../context/ChatContext";
@@ -14,8 +13,9 @@ const Chat = () => {
       <div className="chatInfo">
         <span>{data.user?.displayName}</span>
         <div className="chatIcons">
-          <img src={Profile} alt="" />
-          <img src={More} alt="" />
+          <Link to="/profile">
+            <img src={Profile} alt="" />
+          </Link>
         </div>
       </div>
       <Messages />

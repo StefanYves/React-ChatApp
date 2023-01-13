@@ -12,6 +12,11 @@ const Message = ({ message }) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
+  const date = new Date();
+  var hour = date.getHours();
+  var min = date.getMinutes();
+  var clock = hour + ":" + min;
+
   return (
     <div
       ref={ref}
@@ -26,7 +31,7 @@ const Message = ({ message }) => {
           }
           alt=""
         />
-        <span>just now</span>
+        <span>{clock}</span>
       </div>
       <div className="messageContent">
         <p>{message.text}</p>
