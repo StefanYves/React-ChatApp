@@ -1,12 +1,19 @@
-import { updateEmail, updatePassword, updateProfile } from "firebase/auth";
+import {
+  deleteUser,
+  sendPasswordResetEmail,
+  updateProfile,
+} from "firebase/auth";
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Back from "../img/back.png";
+import { auth } from "../firebase";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
   const updateName = document.getElementById("updateName");
+  const user = auth.currentUser;
 
   function update() {
     updateProfile(currentUser, {
@@ -18,17 +25,22 @@ const Profile = () => {
       .catch((error) => {});
   }
 
-  //   TODO:FIX UPDATE EMAIL
+  function updatePassword() {
+    sendPasswordResetEmail(auth, currentUser.email)
+      .then(() => {
+        console.log("Email sent!");
+      })
+      .catch((error) => {});
+  }
 
-  //   updateEmail(currentUser, "user@example.com")
-  //     .then(() => {
-  //       // Email updated!
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       // An error occurred
-  //       // ...
-  //     });
+  function deleteProfile() {
+    deleteUser(user)
+      .then(() => {
+        navigate("/login");
+        console.log("User deleted");
+      })
+      .catch((error) => {});
+  }
 
   return (
     <div className="profileContainer">
@@ -37,7 +49,9 @@ const Profile = () => {
           <Link to="/">
             <img src={Back} alt="" className="back" />
           </Link>
-          <span className="profileText">Profile</span>
+          <span className="profileText">
+            {currentUser.displayName}'s Profile
+          </span>
         </div>
         <img src={currentUser.photoURL} alt="" />
         <p>email: {currentUser.email}</p>
@@ -45,6 +59,10 @@ const Profile = () => {
         <label htmlFor="updateName">New Username</label>
         <input type="text" id="updateName" />
         <button onClick={update}>Update Username</button>
+        <button onClick={updatePassword}>Send change password email</button>
+        <button onClick={deleteProfile} className="delete">
+          Delete Account
+        </button>
       </div>
     </div>
   );
