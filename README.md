@@ -53,7 +53,9 @@ Designing a user-friendly and visually appealing interface with Tailwind CSS.
 https://react-chatapp-49cb4.web.app/
 
 Demo Accounts:
+
 a@a.com : 123456
+
 y@y.com : 123456
 
 
